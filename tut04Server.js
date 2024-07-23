@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
+require('dotenv').config();
 
 const db = require("./tut04");
 const person = require("./models/person");
@@ -21,8 +22,9 @@ app.use("/person", personRoutes);
 app.use("/menuItem", menuRoutes);
 
 
+const PORT = process.env.PORT || 3000;
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log("Server is live on port:3000");
 });
 

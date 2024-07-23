@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
 });
 router.get("/", async (req, res) => {
   try {
-    const data = await menu.find();
+    const data = await menuItem.find();
     res.status(200).json(data);
   } catch (err) {
     res.status(500).send("Error occured");
