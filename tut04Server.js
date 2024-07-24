@@ -4,17 +4,28 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 require('dotenv').config();
 
+const passport = require('./tut05Auth');
+
 const db = require("./tut04");
-const person = require("./models/person");
-const menuItem = require("./models/menu");
 const personRoutes = require("./routes/person");
 const menuRoutes = require("./routes/menu");
 
+// MiddleWare Function
+let logRequest = (req,res,next)=>{
+  console.log(`[${new Date().toLocaleString()}] requeest is made to [${req.originalUrl}]`);
+  next();
+}
+// We can defalut add middleware for each endpoint
+app.use(logRequest);
+
+// Passport MiddleWare for Authetication
+app.use(passport.initialize());
+const localAuthMW = passport.authenticate('local',{session:false});
+
 // Default Endpoint
-app.get("/", (req, res) => {
+app.get("/", localAuthMW, (req, res) => {
   res.send("Hello sir, how can I help you?");
 });
-
 // Person Endpoints
 app.use("/person", personRoutes);
 
