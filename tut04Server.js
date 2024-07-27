@@ -18,14 +18,18 @@ let logRequest = (req,res,next)=>{
 // We can defalut add middleware for each endpoint
 app.use(logRequest);
 
+
+// Local Strategy
 // Passport MiddleWare for Authetication
 app.use(passport.initialize());
 const localAuthMW = passport.authenticate('local',{session:false});
 
-// Default Endpoint
+// Default Endpoint through Local Strategy of Passport module
 app.get("/", localAuthMW, (req, res) => {
   res.send("Hello sir, how can I help you?");
 });
+
+
 // Person Endpoints
 app.use("/person", personRoutes);
 
